@@ -11,17 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rendxn/praxis-final-tests-template.git"
+    "url": "git+https://github.com/sesp13/atsea-testing.git"
   },
   "keywords": [
     "test"
   ],
-  "author": "Santiago Rendon <santirg2000@gmail.com>",
+  "author": "Santiago Espinosa <sespinosarte99@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Rendxn/praxis-final-tests-template/issues"
+    "url": "https://github.com/sesp13/atsea-testing/issues"
   },
-  "homepage": "https://github.com/Rendxn/praxis-final-tests-template#readme",
+  "homepage": "https://github.com/sesp13/atsea-testing#readme",
   "devDependencies": {
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
