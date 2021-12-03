@@ -1,4 +1,4 @@
-import { get, post } from 'superagent';
+import { get, post, put, del} from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { ApiHelpers } from './helpers/apiHelpers';
 
@@ -45,21 +45,29 @@ describe('Customer endpoints tests', () => {
     try {
       const response = await get(`${baseUrl}username=${customerBody.username}`);
       expect(response.status).to.equal(StatusCodes.OK);
-      const customerFetched = response.body;
-      expect(customerFetched).to.be.an('object');
-      expect(customerFetched).to.haveOwnProperty('customerIf');
-      expect(customerFetched).to.haveOwnProperty('name');
-      expect(customerFetched).to.haveOwnProperty('address');
-      expect(customerFetched).to.haveOwnProperty('email');
-      expect(customerFetched).to.haveOwnProperty('username');
-      expect(customerFetched).to.haveOwnProperty('phone');
+      const customerFetched = ApiHelpers.expectUserStructure(response)
       customerBody.customer_id = customerFetched.customerIf;
     } catch (error) {
       // Behavior if the customer doesn't exists
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
       const body = ApiHelpers.expectErrorStructure(error);
       expect(body.errorMessage).to.equal(
-        `Customer with usernama ${customerBody.username} not found`
+        `Customer with username ${customerBody.username} not found`
+      );
+    }
+  });
+
+  it('Get customer by name', async () => {
+    try {
+      const response = await get(`${baseUrl}name=${customerBody.name}`);
+      expect(response.status).to.equal(StatusCodes.OK);
+      ApiHelpers.expectUserStructure(response)
+    } catch (error) {
+      // Behavior if the customer doesn't exists
+      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
+      const body = ApiHelpers.expectErrorStructure(error);
+      expect(body.errorMessage).to.equal(
+        `Customer with name ${customerBody.name} not found`
       );
     }
   });
@@ -68,14 +76,7 @@ describe('Customer endpoints tests', () => {
     try {
       const response = await get(`${baseUrl}${customerBody.customer_id}`);
       expect(response.status).to.equal(StatusCodes.OK);
-      const customerFetched = response.body;
-      expect(customerFetched).to.be.an('object');
-      expect(customerFetched).to.haveOwnProperty('customerIf');
-      expect(customerFetched).to.haveOwnProperty('name');
-      expect(customerFetched).to.haveOwnProperty('address');
-      expect(customerFetched).to.haveOwnProperty('email');
-      expect(customerFetched).to.haveOwnProperty('username');
-      expect(customerFetched).to.haveOwnProperty('phone');
+      ApiHelpers.expectUserStructure(response)
     } catch (error) {
       // Behavior if the customer doesn't exists
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
@@ -85,4 +86,46 @@ describe('Customer endpoints tests', () => {
       );
     }
   });
+
+  it('Update Customer', async () => {
+    try {
+      customerBody.name = "Copito"
+      customerBody.phone = "666"
+      customerBody.address = "Medellin"
+      const response = await put( `${baseUrl}${customerBody.customer_id}`).send(customerBody);
+      expect(response.status).to.equal(StatusCodes.OK);
+      const customerFetched = ApiHelpers.expectUserStructure(response, "customerId")
+      expect(customerFetched.name).to.equal(customerBody.name)
+      expect(customerFetched.phone).to.equal(customerBody.phone)
+      expect(customerFetched.address).to.equal(customerBody.address)
+    } catch (error) {
+      // Behavior if the user already exists
+      console.log(error)
+      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
+      const body = ApiHelpers.expectErrorStructure(error);
+      expect(body.errorMessage).to.equal(
+        `Unable to update. Customer with id ${customerBody.customer_id} not found`
+      );
+    }
+  });
+
+  it('Delete customer', async () => {
+    try {
+      const response = await del(`${baseUrl}${customerBody.customer_id}`);
+      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      // Behavior if the customer doesn't exists
+      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
+      const body = ApiHelpers.expectErrorStructure(error);
+      expect(body.errorMessage).to.equal(
+        `Unable to delete. Customer with id ${customerBody.customer_id} not found`
+      );
+    }
+  });
+
+  it('Delete all customer', async () => {
+      const response = await del(baseUrl);
+      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+  });
+
 });
