@@ -1,15 +1,16 @@
-import { get, post, put, del} from 'superagent';
+import { get, put, del } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { ApiHelpers } from './helpers/apiHelpers';
 
 import * as chai from 'chai';
+import { CustomerHelpers } from './helpers/CustomerHelpers';
 
 const expect = chai.expect;
 
 const baseUrl = `http://localhost:8080/api/customer/`;
 
 // Global variables
-const customerBody = {
+let customerBody = {
   customer_id: undefined,
   name: 'Juan Carlos',
   address: '144 Townsend, San Francisco 99999',
@@ -21,31 +22,19 @@ const customerBody = {
   role: 'USER',
 };
 
-// Test body
-
 describe('Customer endpoints tests', () => {
   it('Create Customer', async () => {
-    try {
-      const response = await post(baseUrl).send(customerBody);
-      expect(response.status).to.equal(StatusCodes.CREATED);
-      expect(response.body).to.be.an('object');
-      expect(response.body).to.haveOwnProperty('customerId');
-      customerBody.customer_id = response.body.customerId;
-    } catch (error) {
-      // Behavior if the user already exists
-      expect(error.status).to.equal(StatusCodes.CONFLICT);
-      const body = ApiHelpers.expectErrorStructure(error);
-      expect(body.errorMessage).to.equal(
-        `A customer with username ${customerBody.username} already exists.`
-      );
-    }
+    customerBody = await CustomerHelpers.createCustomerTestBody(
+      baseUrl,
+      customerBody
+    );
   });
 
   it('Get customer by username', async () => {
     try {
       const response = await get(`${baseUrl}username=${customerBody.username}`);
       expect(response.status).to.equal(StatusCodes.OK);
-      const customerFetched = ApiHelpers.expectUserStructure(response)
+      const customerFetched = ApiHelpers.expectUserStructure(response);
       customerBody.customer_id = customerFetched.customerIf;
     } catch (error) {
       // Behavior if the customer doesn't exists
@@ -61,7 +50,7 @@ describe('Customer endpoints tests', () => {
     try {
       const response = await get(`${baseUrl}name=${customerBody.name}`);
       expect(response.status).to.equal(StatusCodes.OK);
-      ApiHelpers.expectUserStructure(response)
+      ApiHelpers.expectUserStructure(response);
     } catch (error) {
       // Behavior if the customer doesn't exists
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
@@ -72,35 +61,35 @@ describe('Customer endpoints tests', () => {
     }
   });
 
+  // First get by id test
   it('Get customer by id', async () => {
-    try {
-      const response = await get(`${baseUrl}${customerBody.customer_id}`);
-      expect(response.status).to.equal(StatusCodes.OK);
-      ApiHelpers.expectUserStructure(response)
-    } catch (error) {
-      // Behavior if the customer doesn't exists
-      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
-      const body = ApiHelpers.expectErrorStructure(error);
-      expect(body.errorMessage).to.equal(
-        `Customer with id ${customerBody.customer_id} not found`
-      );
-    }
+    await CustomerHelpers.getCustomerByIdTestBody(
+      `${baseUrl}${customerBody.customer_id}`,
+      customerBody.customer_id
+    );
   });
+
+  console.log(customerBody.customer_id);
 
   it('Update Customer', async () => {
     try {
-      customerBody.name = "Copito"
-      customerBody.phone = "666"
-      customerBody.address = "Medellin"
-      const response = await put( `${baseUrl}${customerBody.customer_id}`).send(customerBody);
+      customerBody.name = 'Copito';
+      customerBody.phone = '666';
+      customerBody.address = 'Medellin';
+      const response = await put(`${baseUrl}${customerBody.customer_id}`).send(
+        customerBody
+      );
       expect(response.status).to.equal(StatusCodes.OK);
-      const customerFetched = ApiHelpers.expectUserStructure(response, "customerId")
-      expect(customerFetched.name).to.equal(customerBody.name)
-      expect(customerFetched.phone).to.equal(customerBody.phone)
-      expect(customerFetched.address).to.equal(customerBody.address)
+      const customerFetched = ApiHelpers.expectUserStructure(
+        response,
+        'customerId'
+      );
+      expect(customerFetched.name).to.equal(customerBody.name);
+      expect(customerFetched.phone).to.equal(customerBody.phone);
+      expect(customerFetched.address).to.equal(customerBody.address);
     } catch (error) {
       // Behavior if the user already exists
-      console.log(error)
+      console.log(error);
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
       const body = ApiHelpers.expectErrorStructure(error);
       expect(body.errorMessage).to.equal(
@@ -123,9 +112,31 @@ describe('Customer endpoints tests', () => {
     }
   });
 
-  it('Delete all customer', async () => {
-      const response = await del(baseUrl);
-      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+  // Check that the user deleted doesn't exists anymore
+  it('Check customer deletion', async () => {
+    await CustomerHelpers.getCustomerByIdTestBody(
+      `${baseUrl}${customerBody.customer_id}`,
+      customerBody.customer_id
+    );
   });
 
+  it('Re create Customer', async () => {
+    customerBody = await CustomerHelpers.createCustomerTestBody(
+      baseUrl,
+      customerBody
+    );
+  });
+
+  it('Delete all customers', async () => {
+    const response = await del(baseUrl);
+    expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+  });
+
+  // Check that the user deleted doesn't exists anymore
+  it('Check customer deletion after bulk deletion method', async () => {
+    await CustomerHelpers.getCustomerByIdTestBody(
+      `${baseUrl}${customerBody.customer_id}`,
+      customerBody.customer_id
+    );
+  });
 });
