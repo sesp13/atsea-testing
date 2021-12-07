@@ -1,13 +1,16 @@
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { get } from 'superagent';
+import { ApiHelpers } from './apiHelpers';
 
 export class ProductHelpers {
   static async getAllProducts(url) {
     const response = await get(url);
     expect(response.status).to.equal(StatusCodes.OK);
     expect(response.body).to.be.an('array');
-    expect(response.body.length).to.equal(9);
-    return response.body
+    response.body.forEach((element) => {
+      expect(ApiHelpers.expectProductStructure(element));
+    });
+    return response.body;
   }
 }

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { post } from 'superagent';
+import { get, post } from 'superagent';
 import { ApiHelpers } from './apiHelpers';
 
 export class OrderHelpers {
-  static async createOrder(
+  static async createOrderTestBody(
     url: string,
     lstProducts: any[],
     customerId: string
@@ -43,5 +43,20 @@ export class OrderHelpers {
     }
 
     return orderBody;
+  }
+
+  static async getOrderByIdTestBody(url: string, expectedId) {
+    try {
+      const response = await get(`${url}${expectedId}`);
+      expect(response.status).to.equal(StatusCodes.OK);
+      const body = ApiHelpers.expectOrderStructure(response.body);
+      expect(body.orderId).to.equal(expectedId);
+    } catch (error) {
+      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
+      const body = ApiHelpers.expectErrorStructure(error);
+      expect(body.errorMessage).to.equal(
+        `Order with id ${expectedId} not found`
+      );
+    }
   }
 }

@@ -23,4 +23,23 @@ export class ApiHelpers {
     expect(customerFetched).to.haveOwnProperty('phone');
     return customerFetched;
   }
+
+  static expectOrderStructure(orderFetched) {
+    expect(orderFetched).to.be.an('object');
+    expect(orderFetched).to.haveOwnProperty('orderId');
+    expect(orderFetched).to.haveOwnProperty('orderDate');
+    expect(orderFetched).to.haveOwnProperty('customerId');
+    expect(orderFetched).to.haveOwnProperty('productsOrdered');
+    return orderFetched;
+  }
+
+  static expectProductStructure(productFetched) {
+    expect(productFetched).to.be.an('object');
+    expect(productFetched).to.haveOwnProperty('productId');
+    expect(productFetched).to.haveOwnProperty('name');
+    expect(productFetched).to.haveOwnProperty('price');
+    expect(productFetched).to.haveOwnProperty('description');
+    expect(productFetched).to.haveOwnProperty('image');
+    return productFetched;
+  }
 }
