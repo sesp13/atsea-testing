@@ -4,23 +4,14 @@ import { ApiHelpers } from './helpers/apiHelpers';
 
 import * as chai from 'chai';
 import { CustomerHelpers } from './helpers/CustomerHelpers';
+import { customerSample } from './helpers/GlobalInformation';
 
 const expect = chai.expect;
 
 const baseUrl = `http://localhost:8080/api/customer/`;
 
 // Global variables
-let customerBody = {
-  customer_id: undefined,
-  name: 'Juan Carlos',
-  address: '144 Townsend, San Francisco 99999',
-  email: 'juanca548@example.com',
-  phone: '513 222 5555',
-  username: 'juanca548',
-  password: 'juancapassword',
-  enabled: 'true',
-  role: 'USER',
-};
+let customerBody = customerSample;
 
 describe('Customer endpoints tests', () => {
   it('Create Customer', async () => {
@@ -69,8 +60,6 @@ describe('Customer endpoints tests', () => {
     );
   });
 
-  console.log(customerBody.customer_id);
-
   it('Update Customer', async () => {
     try {
       customerBody.name = 'Copito';
@@ -89,7 +78,6 @@ describe('Customer endpoints tests', () => {
       expect(customerFetched.address).to.equal(customerBody.address);
     } catch (error) {
       // Behavior if the user already exists
-      console.log(error);
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
       const body = ApiHelpers.expectErrorStructure(error);
       expect(body.errorMessage).to.equal(

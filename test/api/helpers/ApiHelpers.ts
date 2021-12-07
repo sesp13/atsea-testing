@@ -9,7 +9,10 @@ export class ApiHelpers {
     return body;
   }
 
-  static expectUserStructure(response:request.Response, idProperty:string= "customerIf"){
+  static expectUserStructure(
+    response: request.Response,
+    idProperty = 'customerIf'
+  ) {
     const customerFetched = response.body;
     expect(customerFetched).to.be.an('object');
     expect(customerFetched).to.haveOwnProperty(idProperty);
@@ -18,6 +21,6 @@ export class ApiHelpers {
     expect(customerFetched).to.haveOwnProperty('email');
     expect(customerFetched).to.haveOwnProperty('username');
     expect(customerFetched).to.haveOwnProperty('phone');
-    return customerFetched
+    return customerFetched;
   }
 }
