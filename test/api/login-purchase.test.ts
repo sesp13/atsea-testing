@@ -4,8 +4,6 @@ import { expect } from 'chai';
 import { CustomerHelpers } from './helpers/CustomerHelpers';
 import { customerSample } from './helpers/GlobalInformation';
 
-// import { ProductHelpers } from './helpers/ProductHelpers';
-
 let customerBody = customerSample;
 let token;
 const baseUrl = `http://localhost:8080/`;
