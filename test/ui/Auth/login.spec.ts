@@ -17,21 +17,24 @@ describe('Sign in proccess', () => {
       customerBody
     );
   });
-  it('open sign in modal'), async () => {
-      await headerPage.openSignInModal();
-      await browser.sleep(3000);
-      expect(loginPage.getLoginBtn().isDisplayed).to.be.true
-    };
+  it('open sign in modal', async () => {
+    await headerPage.openSignInModal();
+    await browser.sleep(3000);
+    expect(await loginPage.getLoginBtn().isDisplayed()).to.be.true;
+  });
 
-  it('fill login form and login'), async () => {
-    await loginPage.fillformAndLogin(customerBody.username, customerBody.password)
+  it('fill login form and login', async () => {
+    await loginPage.fillformAndLogin(
+      customerBody.username,
+      customerBody.password
+    );
     await browser.sleep(4000);
-    expect(headerPage.checkSignOut()).to.be.true
-  }
+    expect(await headerPage.checkSignOut()).to.be.true;
+  });
 
-  it('sign out and check'), async () => {
-    await headerPage.clickSignOutBtn()
-    await browser.sleep(3000)
-    expect(headerPage.checkSignIn()).to.be.true
-  }
+  it('sign out and check', async () => {
+    await headerPage.clickSignOutBtn();
+    await browser.sleep(3000);
+    expect(await headerPage.checkSignIn()).to.be.true;
+  });
 });
