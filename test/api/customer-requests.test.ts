@@ -1,17 +1,17 @@
-import { get, put, del } from 'superagent';
+import { del, get, put } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { ApiHelpers } from './helpers/apiHelpers';
 
 import * as chai from 'chai';
 import { CustomerHelpers } from './helpers/CustomerHelpers';
-import { customerSample } from './helpers/GlobalInformation';
+import { GlobalInformation } from '../GlobalInformation';
 
 const expect = chai.expect;
 
 const baseUrl = `http://localhost:8080/api/customer/`;
 
 // Global variables
-let customerBody = customerSample;
+let customerBody = GlobalInformation.customerSample;
 
 describe('Customer endpoints tests', () => {
   it('Create Customer', async () => {
@@ -23,9 +23,7 @@ describe('Customer endpoints tests', () => {
 
   it('Get customer by username', async () => {
     try {
-      const response = await get(`${baseUrl}username=${customerBody.username}`);
-      expect(response.status).to.equal(StatusCodes.OK);
-      const customerFetched = ApiHelpers.expectUserStructure(response);
+      const customerFetched = await CustomerHelpers.getCustomerByUsername(baseUrl, customerBody.username);
       customerBody.customer_id = customerFetched.customerIf;
     } catch (error) {
       // Behavior if the customer doesn't exists
@@ -87,17 +85,7 @@ describe('Customer endpoints tests', () => {
   });
 
   it('Delete customer', async () => {
-    try {
-      const response = await del(`${baseUrl}${customerBody.customer_id}`);
-      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
-    } catch (error) {
-      // Behavior if the customer doesn't exists
-      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
-      const body = ApiHelpers.expectErrorStructure(error);
-      expect(body.errorMessage).to.equal(
-        `Unable to delete. Customer with id ${customerBody.customer_id} not found`
-      );
-    }
+    await CustomerHelpers.DeleteCustomerByUsername(GlobalInformation.apiCustomerUrl, customerBody.username);
   });
 
   // Check that the user deleted doesn't exists anymore

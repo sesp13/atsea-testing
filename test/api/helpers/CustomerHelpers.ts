@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { get, post } from 'superagent';
+import { del, get, post } from 'superagent';
 import { ApiHelpers } from './apiHelpers';
 
 export class CustomerHelpers {
@@ -20,6 +20,16 @@ export class CustomerHelpers {
         `Customer with id ${expectedId} not found`
       );
     }
+  }
+
+  // Encapsule standard get by username test
+  static async getCustomerByUsername(
+    url: string,
+    username: string
+  ): Promise<any> {
+    const response = await get(`${url}username=${username}`);
+    expect(response.status).to.equal(StatusCodes.OK);
+    return ApiHelpers.expectUserStructure(response);
   }
 
   /*
@@ -44,5 +54,24 @@ export class CustomerHelpers {
       );
     }
     return customerBody;
+  }
+
+  static async DeleteCustomerByUsername(baseUrl: string, username: string) {
+    const customer = await this.getCustomerByUsername(baseUrl, username);
+    await this.DeleteCustomerById(baseUrl, customer.customerIf);
+  }
+
+  static async DeleteCustomerById(url: string, id: string): Promise<void> {
+    try {
+      const response = await del(`${url}${id}`);
+      expect(response.status).to.equal(StatusCodes.NO_CONTENT);
+    } catch (error) {
+      // Behavior if the customer doesn't exists
+      expect(error.status).to.equal(StatusCodes.NOT_FOUND);
+      const body = ApiHelpers.expectErrorStructure(error);
+      expect(body.errorMessage).to.equal(
+        `Unable to delete. Customer with id ${id} not found`
+      );
+    }
   }
 }

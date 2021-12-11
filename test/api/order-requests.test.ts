@@ -1,11 +1,11 @@
 import { CustomerHelpers } from './helpers/CustomerHelpers';
-import { customerSample } from './helpers/GlobalInformation';
 import { ProductHelpers } from './helpers/ProductHelpers';
 import { OrderHelpers } from './helpers/OrderHelpers';
 import { del, get, put } from 'superagent';
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { ApiHelpers } from './helpers/apiHelpers';
+import { GlobalInformation } from '../GlobalInformation';
 
 // const expect = chai.expect;
 
@@ -15,7 +15,7 @@ const productUrl = `${baseUrl}product/`;
 const orderUrl = `${baseUrl}order/`;
 
 // Global variables
-let customerBody = customerSample;
+let customerBody = GlobalInformation.customerSample;
 let lstProducts: any[];
 
 let orderBody = {

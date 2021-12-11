@@ -2,9 +2,9 @@ import { get, post } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { expect } from 'chai';
 import { CustomerHelpers } from './helpers/CustomerHelpers';
-import { customerSample } from './helpers/GlobalInformation';
+import { GlobalInformation } from '../GlobalInformation';
 
-let customerBody = customerSample;
+let customerBody = GlobalInformation.customerSample;
 let token;
 const baseUrl = `http://localhost:8080/`;
 const loginUrl = `${baseUrl}login/`;
@@ -43,8 +43,8 @@ describe('Login and purchases endpoint tests', () => {
       expect(response.body).to.haveOwnProperty('message');
       expect(response.body.message).to.equal(
         `Thank you for shopping @Sea! We're sending a confirmation email shortly and getting your order ready!`
-        );
-      } catch (error) {
+      );
+    } catch (error) {
       expect(error.status).to.equal(StatusCodes.UNAUTHORIZED);
     }
   });

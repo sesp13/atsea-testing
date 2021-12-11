@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { browser } from 'protractor';
+import { GlobalInformation } from '../../GlobalInformation';
 import { CustomerHelpers } from '../../../test/api/helpers/CustomerHelpers';
-import { customerSample } from '../../../test/api/helpers/GlobalInformation';
 import { HeaderPage } from '../helpers/headerPage';
 import { LoginPage } from '../helpers/loginPage';
 
-let customerBody = customerSample;
+let customerBody = GlobalInformation.customerSample;
 describe('Sign in proccess', () => {
   const headerPage: HeaderPage = new HeaderPage();
   const loginPage: LoginPage = new LoginPage();
