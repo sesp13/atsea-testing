@@ -1,4 +1,6 @@
 export class GlobalInformation {
+  static dockerInternalUrl = 'http://host.docker.internal:8080';
+
   static apiBaseUrl = 'http://localhost:8080/api/';
   static apiCustomerUrl = `http://localhost:8080/api/customer/`;
 

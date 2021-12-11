@@ -6,6 +6,7 @@ import { HeaderPage } from '../helpers/headerPage';
 import { LoginPage } from '../helpers/loginPage';
 import { HomePage } from '../helpers/HomePage';
 import { CheckoutPage } from '../helpers/CheckoutPage';
+import { OrderCompletedPage } from '../helpers/OrderCompletedPage';
 
 let customerBody = GlobalInformation.customerSample;
 describe('Purchase Process', () => {
@@ -13,12 +14,12 @@ describe('Purchase Process', () => {
   const loginPage: LoginPage = new LoginPage();
   const homePage: HomePage = new HomePage();
   const checkOutPage: CheckoutPage = new CheckoutPage();
+  const orderCompletedPage: OrderCompletedPage = new OrderCompletedPage();
 
   before(async () => {
-    const userUrl = `http://localhost:8080/api/customer/`;
-    await browser.get('http://host.docker.internal:8080');
+    await browser.get(GlobalInformation.dockerInternalUrl);
     customerBody = await CustomerHelpers.createCustomerTestBody(
-      userUrl,
+      GlobalInformation.apiCustomerUrl,
       customerBody
     );
   });
@@ -52,5 +53,15 @@ describe('Purchase Process', () => {
 
   it('Complete checkout data and purchase', async () => {
     await checkOutPage.fillformAndPurchase();
+  });
+
+  it('Check order confirmation and continue shopping', async () => {
+    await browser.sleep(3000);
+    expect(await orderCompletedPage.getSuccessBtn().isDisplayed()).to.be.true;
+    expect(await orderCompletedPage.getSuccessMessage().isDisplayed()).to.be
+      .true;
+    expect(await orderCompletedPage.getSuccessMessage().getText()).to.equal(
+      'You have successfully placed an order!'
+    );
   });
 });
