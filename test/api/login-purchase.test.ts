@@ -6,15 +6,11 @@ import { GlobalInformation } from '../GlobalInformation';
 
 let customerBody = GlobalInformation.customerSample;
 let token;
-const baseUrl = `http://localhost:8080/`;
-const loginUrl = `${baseUrl}login/`;
-const purchaseUrl = `${baseUrl}purchase/`;
-const customerUrl = `${baseUrl}api/customer/`;
 
 describe('Login and purchases endpoint tests', () => {
   it('Create Customer to test with', async () => {
     customerBody = await CustomerHelpers.createCustomerTestBody(
-      customerUrl,
+      GlobalInformation.apiCustomerUrl,
       customerBody
     );
   });
@@ -25,7 +21,9 @@ describe('Login and purchases endpoint tests', () => {
         username: customerBody.username,
         password: customerBody.password,
       };
-      const response = await post(loginUrl).send(loginStructure);
+      const response = await post(GlobalInformation.loginUrl).send(
+        loginStructure
+      );
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.be.an('object');
       expect(response.body).to.haveOwnProperty('token');
@@ -37,7 +35,9 @@ describe('Login and purchases endpoint tests', () => {
 
   it('Purchase', async () => {
     try {
-      const response = await get(purchaseUrl).auth(token, { type: 'bearer' });
+      const response = await get(GlobalInformation.purchaseUrl).auth(token, {
+        type: 'bearer',
+      });
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.be.an('object');
       expect(response.body).to.haveOwnProperty('message');

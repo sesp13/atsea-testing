@@ -10,10 +10,9 @@ describe('Sign in proccess', () => {
   const headerPage: HeaderPage = new HeaderPage();
   const loginPage: LoginPage = new LoginPage();
   before(async () => {
-    const userUrl = `http://localhost:8080/api/customer/`;
-    await browser.get('http://host.docker.internal:8080');
+    await browser.get(GlobalInformation.dockerInternalUrl);
     customerBody = await CustomerHelpers.createCustomerTestBody(
-      userUrl,
+      GlobalInformation.apiCustomerUrl,
       customerBody
     );
   });

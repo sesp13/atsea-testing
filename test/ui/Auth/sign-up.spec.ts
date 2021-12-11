@@ -15,7 +15,7 @@ const userBody = {
 
 describe('Sign up process', () => {
   beforeEach(async () => {
-    await browser.get('http://host.docker.internal:8080');
+    await browser.get(GlobalInformation.dockerInternalUrl);
     await headerPage.openSignUpModal();
     await browser.sleep(3000);
   });

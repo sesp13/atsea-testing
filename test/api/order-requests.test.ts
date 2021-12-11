@@ -7,13 +7,6 @@ import { StatusCodes } from 'http-status-codes';
 import { ApiHelpers } from './helpers/apiHelpers';
 import { GlobalInformation } from '../GlobalInformation';
 
-// const expect = chai.expect;
-
-const baseUrl = `http://localhost:8080/api/`;
-const customerUrl = `${baseUrl}customer/`;
-const productUrl = `${baseUrl}product/`;
-const orderUrl = `${baseUrl}order/`;
-
 // Global variables
 let customerBody = GlobalInformation.customerSample;
 let lstProducts: any[];
@@ -28,20 +21,22 @@ let orderBody = {
 describe('Get test data to work with orders', () => {
   it('Create Customer to test with', async () => {
     customerBody = await CustomerHelpers.createCustomerTestBody(
-      customerUrl,
+      GlobalInformation.apiCustomerUrl,
       customerBody
     );
   });
 
   it('Get all products to place orders', async () => {
-    lstProducts = await ProductHelpers.getAllProducts(productUrl);
+    lstProducts = await ProductHelpers.getAllProducts(
+      GlobalInformation.apiProductUrl
+    );
   });
 });
 
 describe('Order endpoints tests', () => {
   it('Create order', async () => {
     orderBody = await OrderHelpers.createOrderTestBody(
-      orderUrl,
+      GlobalInformation.apiOrderUrl,
       lstProducts,
       customerBody.customer_id
     );
@@ -49,7 +44,7 @@ describe('Order endpoints tests', () => {
 
   it('get all orders', async () => {
     try {
-      const response = await get(orderUrl);
+      const response = await get(GlobalInformation.apiOrderUrl);
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.be.an('array');
       // Check if the order 1 exists
@@ -62,7 +57,10 @@ describe('Order endpoints tests', () => {
   });
 
   it('Get order by id', async () => {
-    await OrderHelpers.getOrderByIdTestBody(orderUrl, orderBody.orderId);
+    await OrderHelpers.getOrderByIdTestBody(
+      GlobalInformation.apiOrderUrl,
+      orderBody.orderId
+    );
   });
 
   it('Update order', async () => {
@@ -72,9 +70,9 @@ describe('Order endpoints tests', () => {
       orderBody.productsOrdered = {};
       orderBody.productsOrdered[lstProducts[5].productId] = newValue;
 
-      const response = await put(`${orderUrl}${orderBody.orderId}`).send(
-        orderBody
-      );
+      const response = await put(
+        `${GlobalInformation.apiOrderUrl}${orderBody.orderId}`
+      ).send(orderBody);
 
       expect(response.status).to.equal(StatusCodes.OK);
       const body = ApiHelpers.expectOrderStructure(response.body);
@@ -93,7 +91,9 @@ describe('Order endpoints tests', () => {
 
   it('Delete order', async () => {
     try {
-      const response = await del(`${orderUrl}${orderBody.orderId}`);
+      const response = await del(
+        `${GlobalInformation.apiOrderUrl}${orderBody.orderId}`
+      );
       expect(response.status).to.equal(StatusCodes.NO_CONTENT);
     } catch (error) {
       expect(error.status).to.equal(StatusCodes.NOT_FOUND);
@@ -105,6 +105,9 @@ describe('Order endpoints tests', () => {
   });
 
   it('Check order deletion', async () => {
-    await OrderHelpers.getOrderByIdTestBody(orderUrl, orderBody.orderId);
+    await OrderHelpers.getOrderByIdTestBody(
+      GlobalInformation.apiOrderUrl,
+      orderBody.orderId
+    );
   });
 });

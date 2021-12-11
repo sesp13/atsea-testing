@@ -1,13 +1,14 @@
 import { get } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { expect } from 'chai';
-
-const baseUrl = `http://localhost:8080/utility/`;
+import { GlobalInformation } from '../GlobalInformation';
 
 describe('System and utilities tests', () => {
   it('Database Healthcheck', async () => {
     try {
-      const response = await get(`${baseUrl}/healthcheck/`);
+      const response = await get(
+        `${GlobalInformation.utilityUrl}/healthcheck/`
+      );
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.be.an('object');
       expect(response.body).to.haveOwnProperty('status');
@@ -18,7 +19,9 @@ describe('System and utilities tests', () => {
 
   it('Get container ID', async () => {
     try {
-      const response = await get(`${baseUrl}/containerid/`);
+      const response = await get(
+        `${GlobalInformation.utilityUrl}/containerid/`
+      );
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.be.an('object');
       expect(response.body).to.haveOwnProperty('host');

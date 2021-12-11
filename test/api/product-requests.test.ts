@@ -2,22 +2,25 @@ import { get } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import * as chai from 'chai';
 import { ProductHelpers } from './helpers/ProductHelpers';
+import { GlobalInformation } from '../GlobalInformation';
 
 const expect = chai.expect;
-
-const baseUrl = `http://localhost:8080/api/product/`;
 
 describe('Product endpoints tests', () => {
   // Global variables
   let productId;
 
   it('Get products', async () => {
-    const productLst = await ProductHelpers.getAllProducts(baseUrl);
+    const productLst = await ProductHelpers.getAllProducts(
+      GlobalInformation.apiProductUrl
+    );
     productId = productLst[0].productId;
   });
 
   it(`Get single product by id `, async () => {
-    const response = await get(`${baseUrl}${productId}`);
+    const response = await get(
+      `${GlobalInformation.apiProductUrl}${productId}`
+    );
     expect(response.status).to.equal(StatusCodes.OK);
     const product = response.body;
     expect(product).to.be.an('object');
