@@ -9,9 +9,8 @@
     "noUnusedLocals": true,
     "baseUrl": ".",
     "paths": {
-      "test/*": [
-        "test/*"
-      ]
-    }
+      "src/*": ["./src/*"],
+      "test/*": ["./test/*"],
+    },
   }
 }
