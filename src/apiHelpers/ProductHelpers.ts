@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { get } from 'superagent';
-import { ApiHelpers } from './apiHelpers';
+import { ApiHelpers } from 'src/apiHelpers/ApiHelpers';
 
 export class ProductHelpers {
   static async getAllProducts(url) {
