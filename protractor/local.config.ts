@@ -2,7 +2,7 @@ import { browser, Config } from 'protractor';
 
 export const config: Config = {
   framework: 'mocha',
-  specs: ['../test/ui/**/*.spec.js'],
+  specs: ['../test/ui/**/*.spec.ts'],
   seleniumAddress: 'http://0.0.0.0:4444',
   SELENIUM_PROMISE_MANAGER: false,
   mochaOpts: {
