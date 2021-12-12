@@ -1,8 +1,8 @@
 import { get } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import * as chai from 'chai';
-import { ProductHelpers } from '../../src/apiHelpers/ProductHelpers';
-import { GlobalInformation } from '../GlobalInformation';
+import { ProductHelpers } from 'src/apiHelpers/ProductHelpers';
+import { GlobalInformation } from 'src/GlobalInformation';
 
 const expect = chai.expect;
 

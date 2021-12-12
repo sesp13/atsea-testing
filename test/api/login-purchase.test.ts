@@ -1,8 +1,8 @@
 import { get, post } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { expect } from 'chai';
-import { CustomerHelpers } from '../../src/apiHelpers/CustomerHelpers';
-import { GlobalInformation } from '../GlobalInformation';
+import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
+import { GlobalInformation } from 'src/GlobalInformation';
 
 let customerBody = GlobalInformation.customerSample;
 let token;

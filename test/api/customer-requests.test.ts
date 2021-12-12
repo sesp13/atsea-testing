@@ -1,10 +1,9 @@
 import { del, get, put } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
-import { ApiHelpers } from '../../src/apiHelpers/apiHelpers';
-
+import { ApiHelpers } from 'src/apiHelpers/apiHelpers';
+import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
+import { GlobalInformation } from 'src/GlobalInformation';
 import * as chai from 'chai';
-import { CustomerHelpers } from '../../src/apiHelpers/CustomerHelpers';
-import { GlobalInformation } from '../GlobalInformation';
 
 const expect = chai.expect;
 

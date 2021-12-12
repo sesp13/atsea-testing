@@ -1,7 +1,7 @@
 import { get } from 'superagent';
 import { StatusCodes } from 'http-status-codes';
 import { expect } from 'chai';
-import { GlobalInformation } from '../GlobalInformation';
+import { GlobalInformation } from 'src/GlobalInformation';
 
 describe('System and utilities tests', () => {
   it('Database Healthcheck', async () => {

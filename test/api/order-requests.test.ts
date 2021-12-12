@@ -1,11 +1,11 @@
-import { CustomerHelpers } from '../../src/apiHelpers/CustomerHelpers';
-import { ProductHelpers } from '../../src/apiHelpers/ProductHelpers';
-import { OrderHelpers } from '../../src/apiHelpers/OrderHelpers';
 import { del, get, put } from 'superagent';
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { ApiHelpers } from '../../src/apiHelpers/apiHelpers';
-import { GlobalInformation } from '../GlobalInformation';
+import { ApiHelpers } from 'src/apiHelpers/apiHelpers';
+import { GlobalInformation } from 'src/GlobalInformation';
+import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
+import { ProductHelpers } from 'src/apiHelpers/ProductHelpers';
+import { OrderHelpers } from 'src/apiHelpers/OrderHelpers';
 
 // Global variables
 let customerBody = GlobalInformation.customerSample;
