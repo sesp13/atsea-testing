@@ -1,10 +1,10 @@
-import { CustomerHelpers } from './helpers/CustomerHelpers';
-import { ProductHelpers } from './helpers/ProductHelpers';
-import { OrderHelpers } from './helpers/OrderHelpers';
+import { CustomerHelpers } from '../../src/apiHelpers/CustomerHelpers';
+import { ProductHelpers } from '../../src/apiHelpers/ProductHelpers';
+import { OrderHelpers } from '../../src/apiHelpers/OrderHelpers';
 import { del, get, put } from 'superagent';
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { ApiHelpers } from './helpers/apiHelpers';
+import { ApiHelpers } from '../../src/apiHelpers/apiHelpers';
 import { GlobalInformation } from '../GlobalInformation';
 
 // Global variables

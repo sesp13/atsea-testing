@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { browser, ExpectedConditions } from 'protractor';
-import { CustomerHelpers } from '../../api/helpers/CustomerHelpers';
+import { CustomerHelpers } from '../../../src/apiHelpers/CustomerHelpers';
 import { GlobalInformation } from '../../GlobalInformation';
 import { HeaderPage } from '../helpers/headerPage';
 import { SignUpPage } from '../helpers/signupPage';
