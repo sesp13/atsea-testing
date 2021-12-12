@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { browser } from 'protractor';
 import { GlobalInformation } from 'src/GlobalInformation';
 import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
-import { HeaderPage } from '../helpers/headerPage';
-import { LoginPage } from '../helpers/loginPage';
-import { HomePage } from '../helpers/HomePage';
-import { CheckoutPage } from '../helpers/CheckoutPage';
-import { OrderCompletedPage } from '../helpers/OrderCompletedPage';
+import { HeaderPage } from 'src/uiHelpers/headerPage';
+import { LoginPage } from 'src/uiHelpers/loginPage';
+import { HomePage } from 'src/uiHelpers/HomePage';
+import { CheckoutPage } from 'src/uiHelpers/CheckoutPage';
+import { OrderCompletedPage } from 'src/uiHelpers/OrderCompletedPage';
 
 let customerBody = GlobalInformation.customerSample;
 describe('Purchase Process', () => {

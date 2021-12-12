@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { browser, ExpectedConditions } from 'protractor';
 import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
 import { GlobalInformation } from 'src/GlobalInformation';
-import { HeaderPage } from '../helpers/headerPage';
-import { SignUpPage } from '../helpers/signupPage';
+import { HeaderPage } from 'src/uiHelpers/headerPage';
+import { SignUpPage } from 'src/uiHelpers/SignupPage';
 
 const headerPage: HeaderPage = new HeaderPage();
 const signUpPage: SignUpPage = new SignUpPage();

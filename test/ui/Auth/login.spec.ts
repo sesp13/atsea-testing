@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { browser } from 'protractor';
 import { GlobalInformation } from 'src/GlobalInformation';
 import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
-import { HeaderPage } from '../helpers/headerPage';
-import { LoginPage } from '../helpers/loginPage';
+import { HeaderPage } from 'src/uiHelpers/headerPage';
+import { LoginPage } from 'src/uiHelpers/loginPage';
 
 let customerBody = GlobalInformation.customerSample;
 describe('Sign in proccess', () => {

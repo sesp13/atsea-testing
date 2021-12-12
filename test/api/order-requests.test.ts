@@ -1,7 +1,7 @@
 import { del, get, put } from 'superagent';
 import { expect } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { ApiHelpers } from 'src/apiHelpers/apiHelpers';
+import { ApiHelpers } from 'src/apiHelpers/ApiHelpers';
 import { GlobalInformation } from 'src/GlobalInformation';
 import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
 import { ProductHelpers } from 'src/apiHelpers/ProductHelpers';
