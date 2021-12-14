@@ -29,8 +29,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
     - run: npm ci
+
+    - name: Sleep for 75s
+      uses: juliangruber/sleep-action@v1
+      with:
+        time: 75s
+
     - name: Running API tests
       run: npm run test:api
+
     - name: Upload reports to AWS bucket
       run: aws s3 sync ./mochawesome-report ${{ secrets.AWS_BUCKET }}/api-tests-report
       if: ${{ always() }}
