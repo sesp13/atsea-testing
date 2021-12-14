@@ -26,6 +26,13 @@ export const config: Config = {
       name: 'chrome-tests',
       shardTestFiles: true,
       maxInstances: 1,
+      chromeOptions: {
+        args: [
+          '--disable-popup-blocking',
+          '--no-default-browser-check',
+          '--ignore-certificate-errors',
+        ],
+      },
     },
   ],
 };

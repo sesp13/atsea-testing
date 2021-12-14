@@ -5,6 +5,9 @@ import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
 import { GlobalInformation } from 'src/GlobalInformation';
 import * as chai from 'chai';
 
+// Disable ssl verification
+GlobalInformation.disableSslVerification();
+
 const expect = chai.expect;
 
 // Global variables
