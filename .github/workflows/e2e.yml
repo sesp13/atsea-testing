@@ -47,38 +47,28 @@ jobs:
     steps:
     - name: Checkout to branch ${{ env.DEFAULT_BRANCH }}
       uses: actions/checkout@v2
+
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - run: npm ci
 
-    - name: copy file via ssh key
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.INSTANCE_PUBLIC_DNS }}
-        username: ${{ secrets.INSTANCE_USERNAME }}
-        key: ${{ secrets.INSTANCE_PRIVATE_KEY }}
-        source: "./docker-compose.yml"
-        target: "/home/${{ secrets.INSTANCE_USERNAME }}/run_selenium"
-    - name: Executing remote ssh commands using key
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.INSTANCE_PUBLIC_DNS }}
-        username: ${{ secrets.INSTANCE_USERNAME }}
-        key: ${{ secrets.INSTANCE_PRIVATE_KEY }}
-        timeout: 60s
-        script: |
-          cd run_selenium
-          docker-compose up -d
+    - name: Install dependencies
+      - run: npm ci
+
+    - name: Run docker compose
+      - run:  docker-compose up -d
+
     - name: Running UI tests
       run: npm run test:ui
+
     - name: Upload reports to AWS bucket
       run: aws s3 sync ./mochawesome-reports ${{ secrets.AWS_BUCKET }}/ui-tests-report
       if: ${{ always() }}
