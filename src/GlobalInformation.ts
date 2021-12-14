@@ -2,9 +2,6 @@ export class GlobalInformation {
   static env = 'prod';
   // static env = 'dev';
 
-  //External urls
-  static dockerInternalUrl = 'http://host.docker.internal:8080';
-
   // Base host urls
   static baseUrl =
     this.env == 'prod'
@@ -20,6 +17,10 @@ export class GlobalInformation {
   static apiCustomerUrl = `${this.apiBaseUrl}customer/`;
   static apiOrderUrl = `${this.apiBaseUrl}order/`;
   static apiProductUrl = `${this.apiBaseUrl}product/`;
+
+  //External urls
+  static dockerInternalUrl =
+    this.env == 'prod' ? this.baseUrl : 'http://host.docker.internal:8080';
 
   static customerSample = {
     customer_id: undefined,

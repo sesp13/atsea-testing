@@ -8,6 +8,9 @@ import { HomePage } from 'src/uiHelpers/HomePage';
 import { CheckoutPage } from 'src/uiHelpers/CheckoutPage';
 import { OrderCompletedPage } from 'src/uiHelpers/OrderCompletedPage';
 
+// Disable ssl verification
+GlobalInformation.disableSslVerification();
+
 let customerBody = GlobalInformation.customerSample;
 describe('Purchase Process', () => {
   const headerPage: HeaderPage = new HeaderPage();

@@ -5,6 +5,9 @@ import { GlobalInformation } from 'src/GlobalInformation';
 import { HeaderPage } from 'src/uiHelpers/headerPage';
 import { SignUpPage } from 'src/uiHelpers/SignupPage';
 
+// Disable ssl verification
+GlobalInformation.disableSslVerification();
+
 const headerPage: HeaderPage = new HeaderPage();
 const signUpPage: SignUpPage = new SignUpPage();
 
@@ -17,7 +20,7 @@ describe('Sign up process', () => {
   beforeEach(async () => {
     await browser.get(GlobalInformation.dockerInternalUrl);
     await headerPage.openSignUpModal();
-    await browser.sleep(3000);
+    await browser.sleep(6000);
   });
 
   it('Signup process', async () => {
@@ -31,12 +34,6 @@ describe('Sign up process', () => {
     );
     await signUpPage.continueShopping();
   });
-
-  // it('sign out and check', async () => {
-  //   await headerPage.clickSignOutBtn();
-  //   await browser.sleep(3000);
-  //   expect(await headerPage.checkSignIn()).to.be.true;
-  // });
 
   afterEach(async () => {
     await CustomerHelpers.DeleteCustomerByUsername(

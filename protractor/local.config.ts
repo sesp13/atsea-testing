@@ -16,12 +16,6 @@ export const config: Config = {
   },
   multiCapabilities: [
     {
-      browserName: 'firefox',
-      name: 'firefox-tests',
-      shardTestFiles: true,
-      maxInstances: 1,
-    },
-    {
       browserName: 'chrome',
       name: 'chrome-tests',
       shardTestFiles: true,
@@ -33,6 +27,13 @@ export const config: Config = {
           '--ignore-certificate-errors',
         ],
       },
+    },
+    {
+      browserName: 'firefox',
+      name: 'firefox-tests',
+      shardTestFiles: true,
+      maxInstances: 1,
+      acceptInsecureCerts: true,
     },
   ],
 };

@@ -5,6 +5,9 @@ import { CustomerHelpers } from 'src/apiHelpers/CustomerHelpers';
 import { HeaderPage } from 'src/uiHelpers/headerPage';
 import { LoginPage } from 'src/uiHelpers/loginPage';
 
+// Disable ssl verification
+GlobalInformation.disableSslVerification();
+
 let customerBody = GlobalInformation.customerSample;
 describe('Sign in proccess', () => {
   const headerPage: HeaderPage = new HeaderPage();
