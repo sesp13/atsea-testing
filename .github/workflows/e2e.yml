@@ -57,7 +57,9 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - run: npm ci
+    - run: |
+          npm ci
+          npx webdriver-manager update
 
     - name: Excecute docker
       run: docker-compose up -d
