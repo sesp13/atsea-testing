@@ -20,7 +20,7 @@ describe('Sign up process', () => {
   beforeEach(async () => {
     await browser.get(GlobalInformation.dockerInternalUrl);
     await headerPage.openSignUpModal();
-    await browser.sleep(6000);
+    await browser.sleep(10000);
   });
 
   it('Signup process', async () => {
