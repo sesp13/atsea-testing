@@ -34,6 +34,9 @@ export const config: Config = {
       shardTestFiles: true,
       maxInstances: 1,
       acceptInsecureCerts: true,
+      'moz:firefoxOptions': {
+        args: ['-headless'],
+      },
     },
   ],
 };
