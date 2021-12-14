@@ -27,7 +27,7 @@ describe('Sign up process', () => {
     await signUpPage.fillformAndSignUp(userBody.username, userBody.password);
     await browser.wait(
       ExpectedConditions.visibilityOf(await signUpPage.getSuccessBtn()),
-      5000
+      10000
     );
     expect(await signUpPage.getSuccessMessage().getText()).to.equal(
       'Congratulations! Your account has been created!'
