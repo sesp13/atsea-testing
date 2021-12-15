@@ -37,4 +37,16 @@ export class GlobalInformation {
   static disableSslVerification(): void {
     process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
   }
+
+  static createRandomBody() {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const userIndex = Math.floor(Math.random() * characters.length);
+    const passwordIndex = Math.floor(Math.random() * characters.length);
+
+    return {
+      username: characters[userIndex],
+      password: characters[passwordIndex],
+    };
+  }
 }
